@@ -1,0 +1,20 @@
+.empty-box {
+  background-image: url('../../assets/images/empty.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+
+.zero-box {
+  background-image: url('../../assets/images/cero.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+
+.x-box {
+  background-image: url('../../assets/images/cross.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+}
