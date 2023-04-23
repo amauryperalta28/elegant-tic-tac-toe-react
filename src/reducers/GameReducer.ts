@@ -3,21 +3,7 @@ import { GameAction } from './GameAction';
 import { GameState } from './GameState';
 import { Option } from './Option';
 
-const initialState: GameState = {
-  currentPlayerTurn: 1,
-  gameFinished: false,
-  boardBoxes: [
-    new Box(0, 0, 'top-left-border-rounded'),
-    new Box(0, 1),
-    new Box(0, 2, 'top-right-border-rounded'),
-    new Box(1, 0),
-    new Box(1, 1),
-    new Box(1, 2),
-    new Box(2, 0, 'bottom-left-border-rounded'),
-    new Box(2, 1),
-    new Box(2, 2, 'bottom-right-border-rounded'),
-  ],
-};
+
 
 export const finishGameAction = (): GameAction => ({ type: Option.FinishGame });
 export const restartGameAction = (): GameAction => ({ type: Option.RestartGame });
@@ -27,7 +13,7 @@ export const registerMoveForPlayer1Action = (id: string): GameAction => ({ type:
 export const registerMoveForPlayer2Action = (id: string): GameAction => ({ type: Option.RegisterMoveForPlayer2, payload: {id} });
 
 
-export default (state = initialState, gameAction: GameAction): GameState => {
+export const gameReducer = (state: GameState, gameAction: GameAction): GameState => {
   switch (gameAction.type) {
     case Option.FinishGame:
       return { ...state, gameFinished: true };

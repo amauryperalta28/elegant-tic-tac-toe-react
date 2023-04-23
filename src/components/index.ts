@@ -1,5 +1,5 @@
-import { Box } from "./Box/Box";
+import { BoardBox } from "./Box/BoardBox";
 
 export {
-    Box
+    BoardBox
 }

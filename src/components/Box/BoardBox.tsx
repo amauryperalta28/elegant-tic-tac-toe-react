@@ -1,16 +1,15 @@
 
+import "./BoardBox.css";
+
 type Props = {
-  x: number;
-  y: number;
   content?: string;
   borderRadiusClass?: string;
   id: string;
-  onClick: (x: number,y: number) => void;
+  onClick: (id: string) => void;
 };
 
-export const Box = ({
-  x,
-  y,
+export const BoardBox = ({
+
   content = '',
   borderRadiusClass,
   id,
@@ -25,7 +24,7 @@ export const Box = ({
   };
   return (
     <div>
-      <div id={id} className={getClass()} onClick={()=> onClick(x,y)}></div>
+      <div id={id} className={getClass()} onClick={()=> onClick(id)}></div>
     </div>
   );
 };
