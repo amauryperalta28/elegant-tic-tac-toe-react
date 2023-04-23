@@ -1,13 +1,17 @@
 
 type Props = {
-  content: string;
-  borderRadiusClass: string;
+  x: number;
+  y: number;
+  content?: string;
+  borderRadiusClass?: string;
   id: string;
-  onClick: () => void;
+  onClick: (x: number,y: number) => void;
 };
 
 export const Box = ({
-  content,
+  x,
+  y,
+  content = '',
   borderRadiusClass,
   id,
   onClick,
@@ -21,7 +25,7 @@ export const Box = ({
   };
   return (
     <div>
-      <div id={id} className={getClass()} onClick={onClick}></div>
+      <div id={id} className={getClass()} onClick={()=> onClick(x,y)}></div>
     </div>
   );
 };

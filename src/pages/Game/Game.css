@@ -30,12 +30,14 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     height: 100%;
+    cursor: pointer;
 }
 
 .zero-box {
     background-image: url("../../assets/images/cero.png");
     background-repeat: no-repeat;
     background-size: cover;
+    
 }
 
 .x-box {
