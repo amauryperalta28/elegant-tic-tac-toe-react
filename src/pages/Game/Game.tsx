@@ -1,13 +1,15 @@
-import { useCallback, useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 
 import './Game.css';
 import { BoardBox } from '../../components';
 import {
   changeTurnForPlayer1Action,
   changeTurnForPlayer2Action,
+  finishGameAction,
   gameReducer,
   registerMoveForPlayer1Action,
   registerMoveForPlayer2Action,
+  restartGameAction,
 } from '../../reducers/GameReducer';
 import { GameState } from '../../reducers/GameState';
 import { Box } from '../../interfaces';
@@ -47,47 +49,105 @@ export const Game = () => {
     [state]
   );
 
+  const didThisPlayerWon = useCallback(
+    (playerSymbol: string) => {
+      const topRow =
+        boardBoxes[0].content === playerSymbol &&
+        boardBoxes[1].content === playerSymbol &&
+        boardBoxes[2].content === playerSymbol;
+
+      const middleRow =
+        boardBoxes[3].content === playerSymbol &&
+        boardBoxes[4].content === playerSymbol &&
+        boardBoxes[5].content === playerSymbol;
+
+      const bottomRow =
+        boardBoxes[6].content === playerSymbol &&
+        boardBoxes[7].content === playerSymbol &&
+        boardBoxes[8].content === playerSymbol;
+
+      const leftColumn =
+        boardBoxes[0].content === playerSymbol &&
+        boardBoxes[3].content === playerSymbol &&
+        boardBoxes[6].content === playerSymbol;
+
+      const middleColumn =
+        boardBoxes[1].content === playerSymbol &&
+        boardBoxes[4].content === playerSymbol &&
+        boardBoxes[7].content === playerSymbol;
+
+      const rightColumn =
+        boardBoxes[2].content === playerSymbol &&
+        boardBoxes[5].content === playerSymbol &&
+        boardBoxes[8].content === playerSymbol;
+
+      const leftRightDiagonal =
+        boardBoxes[0].content === playerSymbol &&
+        boardBoxes[4].content === playerSymbol &&
+        boardBoxes[8].content === playerSymbol;
+
+      const rightLeftDiagonal =
+        boardBoxes[2].content === playerSymbol &&
+        boardBoxes[4].content === playerSymbol &&
+        boardBoxes[6].content === playerSymbol;
+
+      const winnerPositions = [
+        topRow,
+        middleRow,
+        bottomRow,
+        leftColumn,
+        middleColumn,
+        rightColumn,
+        leftRightDiagonal,
+        rightLeftDiagonal,
+      ];
+
+      return winnerPositions.some((w) => w);
+    },
+    [boardBoxes]
+  );
+
+  const showWinner = useCallback(() => {
+    if (didThisPlayerWon('X')) {
+      alert(`Jugador 1 ganó!!!!`);
+    } else {
+      alert(`Jugador 2 ganó!!!!`);
+    }
+  }, [didThisPlayerWon]);
+
+  const didGameFinished = useCallback(() => {
+    return didThisPlayerWon('X') || didThisPlayerWon('0');
+  }, [didThisPlayerWon]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (didGameFinished()) {
+        dispatch(finishGameAction());
+        showWinner();
+
+        if (confirm('Le gustaria juegar otra partida?')) {
+          dispatch(restartGameAction());
+        } else {
+          dispatch(restartGameAction());
+          history.back();
+        }
+      }
+    }, 10);
+  }, [didGameFinished, showWinner]);
+
   return (
     <>
       <div className="board-background">
         <div className="board-square">
           {boardBoxes.map((box) => (
             <BoardBox
-            key={box.id}
+              key={box.id}
               id={box.id}
               borderRadiusClass={box.borderRadiusClass}
               content={box.content}
               onClick={registerMove}
             />
           ))}
-
-          {/* <BoardBox
-            id="0_0"
-            borderRadiusClass="top-left-border-rounded"
-            onClick={registerMove}
-          />
-          <BoardBox id="0_1" onClick={registerMove} />
-          <BoardBox
-            id="0_2"
-            borderRadiusClass="top-right-border-rounded"
-            onClick={registerMove}
-          />
-
-          <BoardBox id="1_0" onClick={registerMove} />
-          <BoardBox id="1_1" onClick={registerMove} />
-          <BoardBox id="1_2" onClick={registerMove} />
-
-          <BoardBox
-            id="2_0"
-            borderRadiusClass="bottom-left-border-rounded"
-            onClick={registerMove}
-          />
-          <BoardBox id="2_1" onClick={registerMove} />
-          <BoardBox
-            id="2_2"
-            borderRadiusClass="bottom-right-border-rounded"
-            onClick={registerMove}
-          /> */}
         </div>
       </div>
     </>

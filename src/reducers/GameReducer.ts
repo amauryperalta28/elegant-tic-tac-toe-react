@@ -3,6 +3,21 @@ import { GameAction } from './GameAction';
 import { GameState } from './GameState';
 import { Option } from './Option';
 
+const initialState: GameState = {
+  currentPlayerTurn: 1,
+  gameFinished: false,
+  boardBoxes: [
+    new Box(0, 0, 'top-left-border-rounded'),
+    new Box(0, 1),
+    new Box(0, 2, 'top-right-border-rounded'),
+    new Box(1, 0),
+    new Box(1, 1),
+    new Box(1, 2),
+    new Box(2, 0, 'bottom-left-border-rounded'),
+    new Box(2, 1),
+    new Box(2, 2, 'bottom-right-border-rounded'),
+  ],
+};
 
 
 export const finishGameAction = (): GameAction => ({ type: Option.FinishGame });
@@ -18,7 +33,7 @@ export const gameReducer = (state: GameState, gameAction: GameAction): GameState
     case Option.FinishGame:
       return { ...state, gameFinished: true };
     case Option.RestartGame:
-      return { ...state, gameFinished: false };
+      return initialState;
     case Option.ChangeTurnForPlayer1:
       return { ...state, currentPlayerTurn: 1 };
     case Option.ChangeTurnForPlayer2:
@@ -27,7 +42,7 @@ export const gameReducer = (state: GameState, gameAction: GameAction): GameState
       return {
         ...state,
         boardBoxes: state.boardBoxes.map((box) => {
-          if (box.id === gameAction?.payload?.id) {
+          if (box.id === gameAction?.payload?.id ) {
             const boxMove = new Box(box.x, box.y, box.borderRadiusClass);
             boxMove.setCross();
 
