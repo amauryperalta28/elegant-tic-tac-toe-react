@@ -33,7 +33,7 @@ export const gameReducer = (state: GameState, gameAction: GameAction): GameState
     case Option.FinishGame:
       return { ...state, gameFinished: true };
     case Option.RestartGame:
-      return initialState;
+      return {...initialState, currentPlayerTurn: state.currentPlayerTurn};
     case Option.ChangeTurnForPlayer1:
       return { ...state, currentPlayerTurn: 1 };
     case Option.ChangeTurnForPlayer2:
